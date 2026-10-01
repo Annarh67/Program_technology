@@ -1,0 +1,6 @@
+Id,Model,BrandId,ManagerId,Price,Year
+1,Camry,1,1,3000000,2023
+2,Corolla,1,2,2000000,2023
+3,X5,2,3,7500000,2022
+4,Vesta,3,4,1800000,2024
+5,Sportage,4,5,3500000,2021
