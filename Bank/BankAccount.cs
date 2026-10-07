@@ -56,5 +56,27 @@ internal class BankAccount
         _allTransactions.Add(withdrawal);
     }
 
+    public string GetAccountHistory()
+    {
+        var report = new System.Text.StringBuilder();
 
+        decimal balance = 0;
+        report.AppendLine("Date\t\tAmount\tBalance\tNote");
+
+        foreach (var item in _allTransactions)
+        {
+            balance += item.Amount;
+            report.AppendLine($"{item.Date.ToShortDateString()}\t" +
+                              $"{item.Amount}\t{balance}\t{item.Note}");
+        }
+
+        return report.ToString();
+    }
+
+    // Ключевое слово virtual позволяет в дочернем классе
+    // предоставить другую реализацию
+    // метода PerformMonthAndTransactions
+    public virtual void PerformMonthAndTransactions()
+    {
+    }
 }
