@@ -1,6 +1,6 @@
 ﻿namespace Bank
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -24,14 +24,34 @@
                 Console.WriteLine(e.Message);
             }
 
-            InterestEarningAccount interestEarning = new("Yana", 1000m);
-            interestEarning.MakeDeposit(1000m, DateTime.UtcNow, ":)");
-            interestEarning.MakeWithdrawal(10m, DateTime.UtcNow, ":(");
-            interestEarning.PerformMonthAndTransactions();
+            InterestEarningAccount interest = new InterestEarningAccount("Yana", 1000m);
+           
+            interest.PerformMonthAndTransactions();
 
-            Console.WriteLine(interestEarning);
-            Console.WriteLine(interestEarning.GetAccountHistory());
+  
+            Console.WriteLine(interest.GetAccountHistory());
+
+            LineOfCreditAccount lineOfCredit = new LineOfCreditAccount("Yana", 0, 1000m);
+            lineOfCredit.MakeWithdrawal(500m, DateTime.UtcNow, "credit");
+
+            GiftCartAccount giftcart = new GiftCartAccount("Yana", 1000m, 5000m);
+
+            List<BankAccount> accounts = new List<BankAccount>();
+            accounts.Add(account1);
+            accounts.Add(interest);
+            accounts.Add(lineOfCredit);
+            accounts.Add(giftcart);
+
+            foreach (BankAccount account in accounts)
+            {
+                Console.WriteLine(account);
+                account.PerformMonthAndTransactions();
+                Console.WriteLine(account.GetAccountHistory());
+            }
+
+            lineOfCredit.MakeWithdrawal(600m, DateTime.UtcNow, "credit");
+            Console.WriteLine(lineOfCredit.GetAccountHistory());
 
         }
     }
-}
+}    

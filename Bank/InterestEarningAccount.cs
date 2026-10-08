@@ -1,6 +1,6 @@
 ﻿namespace Bank
 {
-    internal class InterestEarningAccount : BankAccount
+    public class InterestEarningAccount : BankAccount
     {
         public InterestEarningAccount(
             string name,
