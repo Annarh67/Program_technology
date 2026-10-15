@@ -31,13 +31,17 @@ namespace Bank
         /// <exception cref="ArgumentOutOfRangeException">
         /// Возникает, если сумма ежемесячного пополнения отрицательная.
         /// </exception>
+
         public override void PerformMonthAndTransactions()
         {
+            base.PerformMonthAndTransactions();
+
             if (_monthlyDeposit != 0)
             {
                 MakeDeposit(_monthlyDeposit, DateTime.UtcNow, "Add monthnly deposit");
             }
         }
+
 
         /// <summary>
         /// Возвращает строковое представление подарочного счёта.

@@ -25,6 +25,8 @@
         /// </summary>
         public override void PerformMonthAndTransactions()
         {
+            base.PerformMonthAndTransactions();
+
             if (Balance > 500m)
             {
                 decimal interest = Balance * 0.02m;

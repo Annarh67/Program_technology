@@ -17,6 +17,10 @@ public class BankAccount
     /// Возвращает имя владельца банковского счёта.
     /// </summary>
     public string Owner { get; private set; }
+    /// <summary>
+    /// Возвращает или изменяет статус клиента банка.
+    /// </summary>
+    public ClientStatus Status { get; set; } = ClientStatus.Regular;
 
     /// <summary>
     /// Возвращает текущий баланс банковского счёта.
@@ -110,6 +114,11 @@ public class BankAccount
         _allTransactions.Add(withdrawal);
         if (overdraftTransaction is not null)
             _allTransactions.Add(overdraftTransaction);
+        if (Status == ClientStatus.VIP)
+        {
+            decimal cashback = amount * 0.05m;
+            MakeDeposit(cashback, date, "VIP cashback 5%");
+        }
     }
 
     private Transaction? CheckWithdrawalLimit(bool isOverdrawn)
@@ -155,7 +164,34 @@ public class BankAccount
     /// <summary>
     /// Выполняет ежемесячные операции банковского счёта.
     /// </summary>
+
     public virtual void PerformMonthAndTransactions()
     {
+        switch (Status)
+        {
+            case ClientStatus.Regular:
+                if (Balance - 50m >= _minimumBalance)
+                {
+                    MakeWithdrawal(50m, DateTime.UtcNow, "Monthly fee");
+                }
+                break;
+
+            case ClientStatus.Premium:
+                if (Balance > 10000m)
+                {
+                    decimal interest = (Balance - 10000m) * 0.01m;
+                    MakeDeposit(interest, DateTime.UtcNow, "Premium interest 1%");
+                }
+                break;
+
+            case ClientStatus.VIP:
+                if (Balance > 10000m)
+                {
+                    decimal interest = (Balance - 10000m) * 0.03m;
+                    MakeDeposit(interest, DateTime.UtcNow, "VIP interest 3%");
+                }
+                break;
+        }
     }
+
 }
