@@ -30,7 +30,7 @@
             if (Balance > 500m)
             {
                 decimal interest = Balance * 0.02m;
-                MakeDeposit(interest, DateTime.UtcNow, "Apply month interest");
+                MakeDeposit(interest, DateTime.UtcNow, "Apply month interest", "Interest");
             }
         }
     }

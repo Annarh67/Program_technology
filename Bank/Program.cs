@@ -60,6 +60,17 @@
             lineOfCredit.MakeWithdrawal(400m, DateTime.UtcNow, "credit");
 
             Console.WriteLine(lineOfCredit.GetAccountHistory());
+
+            BankAccount vipAccount = new BankAccount("VIP", 20000m);
+            vipAccount.Status = ClientStatus.VIP;
+
+            vipAccount.MakeWithdrawal(1000m, DateTime.UtcNow, "Test withdrawal");
+
+            Console.WriteLine("VIP account history:");
+            Console.WriteLine(vipAccount.GetAccountHistory());
+
+            Console.WriteLine("Audit log:");
+            Console.WriteLine(AuditLog.GetLog());
         }
     }
 }

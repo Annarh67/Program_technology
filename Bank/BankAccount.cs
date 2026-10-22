@@ -80,16 +80,26 @@ public class BankAccount
     /// <exception cref="ArgumentOutOfRangeException">
     /// Возникает, если сумма меньше или равна нулю.
     /// </exception>
-    public void MakeDeposit(decimal amount, DateTime date, string note)
+
+    public void MakeDeposit(
+        decimal amount,
+        DateTime date,
+        string note,
+        string operationType = "Deposit")
     {
         if (amount <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(amount), "Amount of deposit must be positive");
+            throw new ArgumentOutOfRangeException(
+                nameof(amount),
+                "Amount of deposit must be positive");
         }
 
         var deposit = new Transaction(amount, date, note);
         _allTransactions.Add(deposit);
+
+        AuditLog.Log(Number, operationType, amount, date);
     }
+
 
     /// <summary>
     /// Снимает указанную сумму с банковского счёта.
@@ -103,23 +113,31 @@ public class BankAccount
     /// <exception cref="InvalidOperationException">
     /// Возникает, если операция превышает допустимый лимит счёта.
     /// </exception>
+
     public void MakeWithdrawal(decimal amount, DateTime date, string note)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
 
         Transaction? overdraftTransaction
             = CheckWithdrawalLimit(Balance - amount < _minimumBalance);
+
         Transaction? withdrawal = new(-amount, date, note);
 
         _allTransactions.Add(withdrawal);
+        AuditLog.Log(Number, "Withdrawal", amount, date);
+
         if (overdraftTransaction is not null)
+        {
             _allTransactions.Add(overdraftTransaction);
+        }
+
         if (Status == ClientStatus.VIP)
         {
             decimal cashback = amount * 0.05m;
             MakeDeposit(cashback, date, "VIP cashback 5%");
         }
     }
+
 
     private Transaction? CheckWithdrawalLimit(bool isOverdrawn)
     {
@@ -180,7 +198,7 @@ public class BankAccount
                 if (Balance > 10000m)
                 {
                     decimal interest = (Balance - 10000m) * 0.01m;
-                    MakeDeposit(interest, DateTime.UtcNow, "Premium interest 1%");
+                    MakeDeposit(interest, DateTime.UtcNow, "Premium interest 1%", "Interest");
                 }
                 break;
 
@@ -188,7 +206,7 @@ public class BankAccount
                 if (Balance > 10000m)
                 {
                     decimal interest = (Balance - 10000m) * 0.03m;
-                    MakeDeposit(interest, DateTime.UtcNow, "VIP interest 3%");
+                    MakeDeposit(interest, DateTime.UtcNow, "VIP interest 3%", "Interest");
                 }
                 break;
         }
