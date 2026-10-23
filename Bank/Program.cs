@@ -69,6 +69,19 @@
             Console.WriteLine("VIP account history:");
             Console.WriteLine(vipAccount.GetAccountHistory());
 
+            BankAccount sender = new BankAccount("Sender", 5000m);
+            BankAccount receiver = new BankAccount("Receiver", 1000m);
+
+            Console.WriteLine("До перевода:");
+            Console.WriteLine($"Отправитель: {sender.Balance}");
+            Console.WriteLine($"Получатель: {receiver.Balance}");
+
+            BankTransferService.Transfer(sender, receiver, 1500m);
+
+            Console.WriteLine("После перевода:");
+            Console.WriteLine($"Отправитель: {sender.Balance}");
+            Console.WriteLine($"Получатель: {receiver.Balance}");
+
             Console.WriteLine("Audit log:");
             Console.WriteLine(AuditLog.GetLog());
         }
