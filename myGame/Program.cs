@@ -1,5 +1,4 @@
 ﻿
-
 using System;
 
 namespace myGame
@@ -9,27 +8,29 @@ namespace myGame
         static void Main(string[] args)
         {
             NumberGenerator generator = new NumberGenerator();
+            Game game = new Game(generator);
 
-            int number = generator.Generate(1, 100);
-            int guess = 0;
+            int result = 1;
 
             Console.WriteLine("Угадайте число от 1 до 100");
 
-            while (guess != number)
+            while (result != 0)
             {
                 Console.Write("Введите число: ");
 
-                if (!int.TryParse(Console.ReadLine(), out guess))
+                if (!int.TryParse(Console.ReadLine(), out int guess))
                 {
                     Console.WriteLine("Введите целое число!");
                     continue;
                 }
 
-                if (guess < number)
+                result = game.CheckGuess(guess);
+
+                if (result == 1)
                 {
                     Console.WriteLine("Больше");
                 }
-                else if (guess > number)
+                else if (result == -1)
                 {
                     Console.WriteLine("Меньше");
                 }
