@@ -5,9 +5,24 @@ namespace myGame
     {
         private int number;
 
-        public Game(NumberGenerator generator)
+        public Game(NumberGenerator generator, Levels level)
         {
-            number = generator.Generate(1, 100);
+            int maxNumber;
+
+            if (level == Levels.Easy)
+            {
+                maxNumber = 50;
+            }
+            else if (level == Levels.Medium)
+            {
+                maxNumber = 100;
+            }
+            else
+            {
+                maxNumber = 333;
+            }
+
+            number = generator.Generate(1, maxNumber);
         }
 
         public int CheckGuess(int guess)
