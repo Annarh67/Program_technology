@@ -22,6 +22,21 @@ namespace myGame
 
             Levels level = (Levels)choice;
 
+            Console.WriteLine("Показывать подсказки?");
+            Console.WriteLine("1 - Да");
+            Console.WriteLine("2 - Нет");
+
+            int hintsChoice;
+
+            while (!int.TryParse(Console.ReadLine(), out hintsChoice)
+                   || hintsChoice < 1 || hintsChoice > 2)
+            {
+                Console.WriteLine("Введите число от 1 до 2:");
+            }
+
+            Settings settings = new Settings();
+            settings.ShowHints = hintsChoice == 1;
+
             NumberGenerator generator = new NumberGenerator();
             Game game = new Game(generator, level);
 
@@ -41,17 +56,20 @@ namespace myGame
 
                 result = game.CheckGuess(guess);
 
-                if (result == 1)
-                {
-                    Console.WriteLine("Больше");
-                }
-                else if (result == -1)
-                {
-                    Console.WriteLine("Меньше");
-                }
-                else
+                if (result == 0)
                 {
                     Console.WriteLine("Вы угадали!");
+                }
+                else if (settings.ShowHints)
+                {
+                    if (result == 1)
+                    {
+                        Console.WriteLine("Больше");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Меньше");
+                    }
                 }
             }
         }
