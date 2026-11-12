@@ -39,6 +39,7 @@ namespace myGame
 
             NumberGenerator generator = new NumberGenerator();
             Game game = new Game(generator, level);
+            game.GameWon += ShowWinMessage;
             GameStatistics statistics = new GameStatistics();
 
             int result = 1;
@@ -60,7 +61,6 @@ namespace myGame
 
                 if (result == 0)
                 {
-                    Console.WriteLine("Вы угадали!");
                     Console.WriteLine("Количество попыток: " + statistics.Attempts);
                 }
                 else if (settings.ShowHints)
@@ -75,6 +75,10 @@ namespace myGame
                     }
                 }
             }
+        }
+        static void ShowWinMessage()
+        {
+            Console.WriteLine("Поздравляем! Вы угадали число!");
         }
     }
 }

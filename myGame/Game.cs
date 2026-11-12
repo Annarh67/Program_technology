@@ -1,9 +1,10 @@
-﻿
+﻿using System;
 namespace myGame
 {
     public class Game
     {
         private int number;
+        public event Action? GameWon;
 
         public Game(NumberGenerator generator, Levels level)
         {
@@ -37,6 +38,7 @@ namespace myGame
             }
             else
             {
+                GameWon?.Invoke();
                 return 0;
             }
         }
