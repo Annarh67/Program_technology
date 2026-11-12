@@ -40,6 +40,7 @@ namespace myGame
             NumberGenerator generator = new NumberGenerator();
             Game game = new Game(generator, level);
             game.GameWon += ShowWinMessage;
+            game.GuessMade += ShowGuessMessage;
             GameStatistics statistics = new GameStatistics();
 
             int result = 1;
@@ -80,6 +81,10 @@ namespace myGame
         static void ShowWinMessage()
         {
             Console.WriteLine("Поздравляем! Вы угадали число!");
+        }
+        static void ShowGuessMessage(int guess)
+        {
+            Console.WriteLine("Вы ввели число: " + guess);
         }
     }
 }

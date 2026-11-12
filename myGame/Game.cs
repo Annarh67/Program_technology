@@ -5,6 +5,7 @@ namespace myGame
     {
         private int number;
         public event Action? GameWon;
+        public event Action<int>? GuessMade;
 
         public Game(NumberGenerator generator, Levels level)
         {
@@ -28,6 +29,7 @@ namespace myGame
 
         public int CheckGuess(int guess)
         {
+            GuessMade?.Invoke(guess);
             if (guess < number)
             {
                 return 1;
