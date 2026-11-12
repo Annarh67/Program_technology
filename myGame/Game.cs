@@ -7,24 +7,9 @@ namespace myGame
         public event Action? GameWon;
         public event Action<int>? GuessMade;
 
-        public Game(NumberGenerator generator, Levels level)
+        public Game(INumberGenerator generator, int minNumber, int maxNumber)
         {
-            int maxNumber;
-
-            if (level == Levels.Easy)
-            {
-                maxNumber = 50;
-            }
-            else if (level == Levels.Medium)
-            {
-                maxNumber = 100;
-            }
-            else
-            {
-                maxNumber = 333;
-            }
-
-            number = generator.Generate(1, maxNumber);
+            number = generator.Generate(minNumber, maxNumber);
         }
 
         public int CheckGuess(int guess)

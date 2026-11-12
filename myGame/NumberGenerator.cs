@@ -1,7 +1,7 @@
 ﻿
 namespace myGame
 {
-    public class NumberGenerator
+    public class NumberGenerator : INumberGenerator
     {
         private Random random = new Random();
 

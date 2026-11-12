@@ -37,11 +37,27 @@ namespace myGame
             Settings settings = new Settings();
             settings.ShowHints = hintsChoice == 1;
 
-            NumberGenerator generator = new NumberGenerator();
-            Game game = new Game(generator, level);
+            INumberGenerator generator = new NumberGenerator();
+            //INumberGenerator generator = new TestNumberGenerator(); //LSP принцип подстановки Лисков
+            int maxNumber;
+
+            if (level == Levels.Easy)
+            {
+                maxNumber = 50;
+            }
+            else if (level == Levels.Medium)
+            {
+                maxNumber = 100;
+            }
+            else
+            {
+                maxNumber = 333;
+            }
+            Game game = new Game(generator, 1, maxNumber);
             game.GameWon += ShowWinMessage;
             game.GuessMade += ShowGuessMessage;
-            GameStatistics statistics = new GameStatistics();
+            IStatistics statistics = new Statistics();
+            StatisticsFileWriter fileWriter = new StatisticsFileWriter();
 
             int result = 1;
 
@@ -58,12 +74,12 @@ namespace myGame
                 }
 
                 result = game.CheckGuess(guess);
-                statistics.AddAttempt();    
+                statistics.AddAttempt();
 
                 if (result == 0)
                 {
                     Console.WriteLine("Количество попыток: " + statistics.Attempts);
-                    statistics.SaveToFile(level);
+                    fileWriter.SaveToFile(level, statistics.Attempts);
                 }
                 else if (settings.ShowHints)
                 {
