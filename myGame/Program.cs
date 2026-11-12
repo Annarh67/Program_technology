@@ -62,6 +62,7 @@ namespace myGame
                 if (result == 0)
                 {
                     Console.WriteLine("Количество попыток: " + statistics.Attempts);
+                    statistics.SaveToFile(level);
                 }
                 else if (settings.ShowHints)
                 {
