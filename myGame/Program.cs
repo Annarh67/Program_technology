@@ -39,6 +39,7 @@ namespace myGame
 
             NumberGenerator generator = new NumberGenerator();
             Game game = new Game(generator, level);
+            GameStatistics statistics = new GameStatistics();
 
             int result = 1;
 
@@ -55,10 +56,12 @@ namespace myGame
                 }
 
                 result = game.CheckGuess(guess);
+                statistics.AddAttempt();    
 
                 if (result == 0)
                 {
                     Console.WriteLine("Вы угадали!");
+                    Console.WriteLine("Количество попыток: " + statistics.Attempts);
                 }
                 else if (settings.ShowHints)
                 {
